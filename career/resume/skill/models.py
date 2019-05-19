@@ -8,6 +8,9 @@ from .querysets import SkillQuerySet
 class Skill(DateTimeModel,
             DeletedModel,
             models.Model):
+
+    DISPLAY_FIELDS = ("id", "desc", "created", "modified")
+
     id = models.AutoField(
         primary_key=True,
         verbose_name="唯一id",

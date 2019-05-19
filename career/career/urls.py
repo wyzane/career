@@ -20,5 +20,5 @@ import resume.skill.urls as url_skill
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(url_skill)),
+    path('api/v1/resume/', include(url_skill)),
 ]
