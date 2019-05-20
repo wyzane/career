@@ -7,8 +7,8 @@ from core.utils import Validator
 from core.mixins import ResponseMixin
 
 
-class SkillList(ResponseMixin, View):
-    """技术列表视图
+class SkillDetail(ResponseMixin, View):
+    """技术详情视图
     """
 
     skill = Skill.objects
@@ -38,8 +38,8 @@ class SkillList(ResponseMixin, View):
             return self.get_response()
 
 
-class SkillDetail(ResponseMixin, View):
-    """技能详情视图
+class SkillList(ResponseMixin, View):
+    """技能列表视图
     """
 
     skill = Skill.objects
@@ -55,10 +55,10 @@ class SkillDetail(ResponseMixin, View):
         page_size = validator.arg_check(
             arg_key="pageSize",
             arg_type=int,
-            default=8)
+            default=2)
         page_index = validator.arg_check(
-            arg_type="pageIndex",
-            arg_key=int,
+            arg_key="pageIndex",
+            arg_type=int,
             default=1)
 
         is_arg_valid, err_msg = validator.arg_msg()
@@ -67,23 +67,22 @@ class SkillDetail(ResponseMixin, View):
             skill_obj = self.skill.filter(is_deleted=False)
             if skill_desc:
                 data = (skill_obj
-                        .filter(desc__contains=skill_desc))
+                        .filter(desc__contains=skill_desc)
+                        .values(*Skill.DISPLAY_FIELDS))
             else:
-                data = skill_obj.all()
+                data = (skill_obj.all()
+                        .values(*Skill.DISPLAY_FIELDS))
 
+            paginator = Paginator(data, page_size)
             page_info = {
                 "pageSize": page_size,
                 "pageIndex": page_index,
-
+                "totalCount": paginator.count
             }
-            paginator = Paginator(list(data), page_size)
-            page_info = {
-                "pageSize": page_size,
-                "pageIndex": page_index,
-                "pageCount": paginator.count
-            }
-            data = paginator.page(page_index)
-            return self.get_response(list(data), **page_info)
+            data = list(paginator
+                        .page(page_index)
+                        .object_list)
+            return self.get_response(data, **page_info)
         else:
             self.code = "00001"
             self.status = False

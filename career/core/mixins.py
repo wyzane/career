@@ -34,8 +34,7 @@ class ResponseMixin:
     @property
     def message(self):
         return (self.code_message
-                .get(self.code)
-                + self._message)
+                .get(self.code))
 
     @message.setter
     def message(self, msg):
@@ -46,7 +45,7 @@ class ResponseMixin:
         res["code"] = self.code
         res["status"] = self.status
         res["message"] = self.message
-        res["data"] = data
         res = {**res, **kwargs}
+        res["data"] = data
         return JsonResponse(res)
 
