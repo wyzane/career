@@ -5,7 +5,7 @@
 from django.urls import path
 
 from .apis.views import (SkillList, SkillDetail)
-from .apis.views_crud import (SkillCreation)
+from .apis.views_crud import (SkillCreation, SkillUpdate)
 
 
 urlpatterns = [
@@ -14,5 +14,7 @@ urlpatterns = [
     path('list/skill',
          SkillList.as_view()),
     path('detail/skill',
-         SkillDetail.as_view())
+         SkillDetail.as_view()),
+    path('update/skill',
+         SkillUpdate.as_view())
 ]

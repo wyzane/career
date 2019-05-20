@@ -9,37 +9,36 @@ class CreationQuerySet(QuerySet):
 
 class RetrieveQuerySet(QuerySet):
 
-    def existed(self):
+    def existed(self, **kwargs):
         """过滤已删除数据
         """
 
         if hasattr(self.model, "is_deleted"):
-            info = self.filter(is_deleted=False)
-        else:
-            info = self.all()
-        return info
+            kwargs["is_deleted"] = False
+        return super().filter(**kwargs)
 
-    def retrieve_with_id(self, id):
-        """根据条件查询数据
+    def retrieve_with_id(self, **kwargs):
+        """根据id查询数据
         """
-
-        info = self.filter(id=id)
+        if kwargs:
+            info = super().filter(**kwargs)
+        else:
+            info = super().all()
         return info
 
     def retrieve_with_field(self, **kwargs):
         """根据条件查询数据
         """
-
-        if kwargs:
-            info = self.filter(**kwargs)
-        else:
-            info = self.all()
-        print("info:", info)
-        return info
+        pass
 
 
 class UpdateQuerySet(QuerySet):
-    pass
+
+    def update_by_id(self, id, **kwargs):
+        obj = self.filter(id=id)
+        if obj:
+            obj.update(**kwargs)
+        return obj
 
 
 class DeletionQuerySet(QuerySet):

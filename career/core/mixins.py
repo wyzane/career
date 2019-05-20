@@ -6,8 +6,8 @@ class ResponseMixin:
     code_message = {
         "00000": "成功",
         "00001": "参数错误,",
-        "00002": "对象已存在",
-        "00003": "对象不存在"
+        "00002": "对象不存在",
+        "00003": "对象已存在"
     }
 
     def __init__(self):
@@ -33,12 +33,12 @@ class ResponseMixin:
 
     @property
     def message(self):
-        return (self.code_message
-                .get(self.code))
+        return self._message
 
     @message.setter
     def message(self, msg):
-        self._message = msg
+        self._message = (self.code_message
+                         .get(self.code) + msg)
 
     def get_response(self, data=None, **kwargs):
         res = dict()

@@ -63,21 +63,20 @@ class SkillList(ResponseMixin, View):
 
         is_arg_valid, err_msg = validator.arg_msg()
         if is_arg_valid:
-            # todo 此处可以封装成通用方法
-            skill_obj = self.skill.filter(is_deleted=False)
             if skill_desc:
-                data = (skill_obj
+                data = (self.skill_extend.existed()
                         .filter(desc__contains=skill_desc)
                         .values(*Skill.DISPLAY_FIELDS))
             else:
-                data = (skill_obj.all()
+                data = (self.skill_extend.all()
                         .values(*Skill.DISPLAY_FIELDS))
 
             paginator = Paginator(data, page_size)
             page_info = {
-                "pageSize": page_size,
-                "pageIndex": page_index,
-                "totalCount": paginator.count
+                "pageSize": page_size,           # 每页条数
+                "pageIndex": page_index,         # 当前页数
+                "itemTotal": paginator.count,    # 数据总数
+                "itemPage": paginator.num_pages  # 分页总数
             }
             data = list(paginator
                         .page(page_index)

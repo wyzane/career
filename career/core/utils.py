@@ -22,10 +22,9 @@ class Validator:
 
         """
         value = self.params.get(arg_key, default)
-
         if (not nullable) and (not value):
             self.detail += (arg_key + "为空")
-        elif (not nullable) and type(value) != arg_type:
+        if value:
             try:
                 value = arg_type(value)
             except ValueError:
