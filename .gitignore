@@ -105,3 +105,6 @@ venv.bak/
 
 .idea/*
 *__init__*
+*_initial*
+
+settings/local_*
