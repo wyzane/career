@@ -27,8 +27,8 @@ class Project(DateTimeModel,
         help_text="项目所在公司名称")
 
     objects = models.Manager()
+    # 扩展django查询方法2：自定义Manager
     objects_extend = ProjectManager()
-    # objects_extend = ProjectQuerySet.as_manager()
 
     class Meta:
         db_table = "career_resume_project"
