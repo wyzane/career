@@ -68,7 +68,7 @@ class SkillList(ResponseMixin, View):
                         .filter(desc__contains=skill_desc)
                         .values(*Skill.DISPLAY_FIELDS))
             else:
-                data = (self.skill_extend.all()
+                data = (self.skill_extend.existed()
                         .values(*Skill.DISPLAY_FIELDS))
 
             paginator = Paginator(data, page_size)

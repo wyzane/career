@@ -3,8 +3,6 @@
 # @Intro :
 
 from django.views import View
-from django.http import HttpResponse, JsonResponse
-from django.forms.models import model_to_dict
 
 from core.utils import Validator
 from core.mixins import ResponseMixin
@@ -21,7 +19,6 @@ class SkillCreation(ResponseMixin, View):
 
         desc = validator.arg_check(
             arg_key="desc",
-            # default="技能介绍",
             arg_type=str)
 
         is_arg_valid, err_msg = validator.arg_msg()
@@ -40,7 +37,7 @@ class SkillCreation(ResponseMixin, View):
 
 
 class SkillUpdate(ResponseMixin, View):
-    """更新技能视图
+    """技能更新视图
     """
 
     skill = Skill.objects
@@ -62,6 +59,7 @@ class SkillUpdate(ResponseMixin, View):
         if is_arg_valid:
             skill_obj = (self.skill_extend
                          .update_by_id(skill_id, desc=desc))
+            # skill_obj = self.skill.get(id=skill_id)
             if skill_obj:
                 data = (skill_obj
                         .values(*Skill.DISPLAY_FIELDS)
@@ -79,4 +77,35 @@ class SkillUpdate(ResponseMixin, View):
 
 
 class SkillDeletion(ResponseMixin, View):
+    """技能删除视图
+    """
+
+    skill = Skill.objects
+    skill_extend = Skill.objects_extend
+
+    def post(self, request):
+        args = request.POST.copy()
+        validator = Validator(params=args)
+
+        skill_ids = validator.arg_check(
+            arg_key="skillIds",
+            arg_type='list',
+            nullable=False)
+
+        is_arg_valid, err_msg = validator.arg_msg()
+        if is_arg_valid:
+            skill_obj = (self.skill
+                         .filter(id__in=skill_ids)
+                         .update(is_deleted=True))
+            return self.get_response()
+        else:
+            self.code = "00001"
+            self.status = False
+            self.message = err_msg
+        return self.get_response()
+
+
+class SkillDownload(ResponseMixin, View):
+    """技能下载视图
+    """
     pass

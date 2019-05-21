@@ -1,8 +1,11 @@
+import json
 
 
 class Validator:
     """请求参数校验
     """
+
+    SPECIAL_TYPE = ['json', 'list']
 
     def __init__(self, params):
         self.params = params
@@ -22,13 +25,16 @@ class Validator:
 
         """
         value = self.params.get(arg_key, default)
+
         if (not nullable) and (not value):
-            self.detail += (arg_key + "为空")
-        if value:
+            self.detail += ("参数" + arg_key + "为空")
+        if value and (arg_type not in self.SPECIAL_TYPE):
             try:
                 value = arg_type(value)
             except ValueError:
-                self.detail += (arg_key + "类型错误")
+                self.detail += ("参数" + arg_key + "类型错误")
+        if arg_type in self.SPECIAL_TYPE:
+            value = json.loads(value)
 
         return value
 
@@ -43,4 +49,8 @@ class RedisUtil:
 
 
 class ESUtil:
+    pass
+
+
+class PGUtil:
     pass

@@ -35,14 +35,20 @@ class RetrieveQuerySet(QuerySet):
 class UpdateQuerySet(QuerySet):
 
     def update_by_id(self, id, **kwargs):
-        obj = self.filter(id=id)
-        if obj:
-            obj.update(**kwargs)
-        return obj
+        objs = self.filter(id=id)
+        if objs:
+            objs.update(**kwargs)
+        return objs
 
 
 class DeletionQuerySet(QuerySet):
-    pass
+
+    def delete_by_id(self, id):
+        obj = super().filter(id=id)
+        if obj:
+            obj.update(is_deleted=True)
+            return obj.values(self.model.DISPLAY_FIELDS)[0]
+        return {}
 
 
 

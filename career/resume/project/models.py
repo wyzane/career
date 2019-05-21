@@ -3,6 +3,7 @@ from django.db import models
 from core.models import (DateTimeModel,
                          DeletedModel)
 from .querysets import ProjectQuerySet
+from .managers import ProjectManager
 
 
 class Project(DateTimeModel,
@@ -26,7 +27,8 @@ class Project(DateTimeModel,
         help_text="项目所在公司名称")
 
     objects = models.Manager()
-    objects_extend = ProjectQuerySet.as_manager()
+    objects_extend = ProjectManager()
+    # objects_extend = ProjectQuerySet.as_manager()
 
     class Meta:
         db_table = "career_resume_project"
