@@ -1,7 +1,11 @@
+"""使用Client测试
+"""
+
 import json
 
 from django.test import TestCase
 from django.test import Client
+
 from resume.skill.models import Skill
 
 

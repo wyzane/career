@@ -54,3 +54,7 @@ class ESUtil:
 
 class PGUtil:
     pass
+
+
+class CrontabUtil:
+    pass
