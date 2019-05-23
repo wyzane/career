@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 import resume.skill.urls as url_skill
+import resume.project.urls as url_project
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/resume/', include(url_skill)),
+    path('api/v1/resume/', include(url_project)),
 ]

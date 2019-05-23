@@ -1,7 +1,3 @@
-# @Author : WZ 
-# @Time : 2019/5/17 21:36 
-# @Intro :
-
 from django.views import View
 
 from core.utils import Validator
@@ -19,7 +15,8 @@ class SkillCreation(ResponseMixin, View):
 
         desc = validator.arg_check(
             arg_key="desc",
-            arg_type=str)
+            arg_type=str,
+            nullable=False)
 
         is_arg_valid, err_msg = validator.arg_msg()
         if is_arg_valid:

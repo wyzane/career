@@ -55,7 +55,7 @@ class SkillList(ResponseMixin, View):
         page_size = validator.arg_check(
             arg_key="pageSize",
             arg_type=int,
-            default=2)
+            default=8)
         page_index = validator.arg_check(
             arg_key="pageIndex",
             arg_type=int,
@@ -64,14 +64,14 @@ class SkillList(ResponseMixin, View):
         is_arg_valid, err_msg = validator.arg_msg()
         if is_arg_valid:
             if skill_desc:
-                data = (self.skill_extend.existed()
-                        .filter(desc__contains=skill_desc)
-                        .values(*Skill.DISPLAY_FIELDS))
+                skill_objs = (self.skill_extend.existed()
+                              .filter(desc__contains=skill_desc)
+                              .values(*Skill.DISPLAY_FIELDS))
             else:
-                data = (self.skill_extend.existed()
-                        .values(*Skill.DISPLAY_FIELDS))
+                skill_objs = (self.skill_extend.existed()
+                              .values(*Skill.DISPLAY_FIELDS))
 
-            paginator = Paginator(data, page_size)
+            paginator = Paginator(skill_objs, page_size)
             page_info = {
                 "pageSize": page_size,           # 每页条数
                 "pageIndex": page_index,         # 当前页数

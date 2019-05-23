@@ -9,6 +9,10 @@ from .managers import ProjectManager
 class Project(DateTimeModel,
               DeletedModel,
               models.Model):
+
+    DISPLAY_FIELDS = ("id", "name", "desc", "company",
+                      "created", "modified")
+
     id = models.AutoField(
         primary_key=True,
         verbose_name="唯一id",
