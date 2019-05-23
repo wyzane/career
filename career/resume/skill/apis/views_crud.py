@@ -10,7 +10,7 @@ from ..models import Skill
 
 
 class SkillCreation(ResponseMixin, View):
-    """技能创建接口
+    """技能创建视图
     """
 
     def post(self, request):

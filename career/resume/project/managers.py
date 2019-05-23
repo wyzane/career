@@ -3,11 +3,13 @@
 # @Intro :
 
 from django.db import models
-from core.managers import (CRUDManager,
+from core.managers import (ExistedManager,
+                           CRUDManager,
                            RetrieveManager)
 
 
-class ProjectManager(CRUDManager,
+class ProjectManager(ExistedManager,
+                     CRUDManager,
                      RetrieveManager,
                      models.Manager):
     def get_queryset(self):
