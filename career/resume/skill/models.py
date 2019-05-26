@@ -23,10 +23,12 @@ class Skill(DateTimeModel,
         help_text="技能介绍")
 
     objects = models.Manager()
-    # 返回一个Manager实例，并复制了SkillQuerySet中的方法
-    # objects_extend = SkillQuerySet.as_manager()
+
+    # 扩展django查询方法1：自定义QuerySet
+    # as_manager()返回一个Manager实例，并复制了SkillQuerySet中的方法
+    objects_extend = SkillQuerySet.as_manager()
     # 或者
-    objects_extend = BaseManager.from_queryset(SkillQuerySet)()
+    # objects_extend = BaseManager.from_queryset(SkillQuerySet)()
 
     class Meta:
         db_table = "career_resume_skill"

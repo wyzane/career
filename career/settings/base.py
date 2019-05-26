@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'resume.skill',
     'resume.hobby',
     'resume.project',
+    'account.user',
 ]
 
 MIDDLEWARE = [

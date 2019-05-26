@@ -1,7 +1,11 @@
+"""使用Client测试
+"""
+
 import json
 
 from django.test import TestCase
 from django.test import Client
+
 from resume.skill.models import Skill
 
 
@@ -9,8 +13,8 @@ class SkillTestCase(TestCase):
 
     def setUp(self):
         print("-- test start --")
-        self.client = Client()
 
+        self.client = Client()
         self.url = {
             "url_skill_create": "/api/v1/resume/create/skill",
             "url_skill_list": "/api/v1/resume/list/skill",

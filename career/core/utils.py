@@ -10,6 +10,8 @@ class Validator:
     def __init__(self, params):
         self.params = params
         self.detail = ""
+        self.arg_null = []
+        self.arg_type = []
 
     def arg_check(self, arg_key, default="",
               arg_type=str, nullable=True):
@@ -27,18 +29,27 @@ class Validator:
         value = self.params.get(arg_key, default)
 
         if (not nullable) and (not value):
-            self.detail += ("参数" + arg_key + "为空")
-        if value and (arg_type not in self.SPECIAL_TYPE):
+            self.arg_null.append(arg_key)
+        elif value and (arg_type not in self.SPECIAL_TYPE):
             try:
                 value = arg_type(value)
             except ValueError:
-                self.detail += ("参数" + arg_key + "类型错误")
-        if arg_type in self.SPECIAL_TYPE:
+                self.arg_type.append(arg_key)
+        elif arg_type in self.SPECIAL_TYPE:
             value = json.loads(value)
 
         return value
 
     def arg_msg(self):
+        if self.arg_null:
+            self.detail = ("参数错误，" + self.arg_null[0] + "为空"
+                           if len(self.arg_null) == 1
+                           else "参数" + ",".join(self.arg_null) + "为空")
+        if self.arg_type:
+            self.detail = ("参数错误，" + self.arg_type[0] + "类型错误"
+                           if len(self.arg_type) == 1
+                           else "参数" + ",".join(self.arg_type) + "类型错误")
+
         if not self.detail:
             return True, ""
         return False, self.detail
@@ -53,4 +64,8 @@ class ESUtil:
 
 
 class PGUtil:
+    pass
+
+
+class CrontabUtil:
     pass
