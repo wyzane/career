@@ -38,8 +38,9 @@ class ResponseMixin:
 
     @message.setter
     def message(self, msg):
-        self._message = (self.code_message
-                         .get(self.code) + msg)
+        self._message = msg
+        # self._message = (self.code_message
+        #                  .get(self.code) + msg)
 
     def get_response(self, data=None, **kwargs):
         res = dict()

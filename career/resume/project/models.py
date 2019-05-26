@@ -11,7 +11,7 @@ class Project(DateTimeModel,
               models.Model):
 
     DISPLAY_FIELDS = ("id", "name", "desc", "company",
-                      "created", "modified")
+                      "created", "modified", "is_deleted")
 
     id = models.AutoField(
         primary_key=True,

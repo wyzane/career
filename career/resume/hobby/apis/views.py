@@ -1,20 +1,20 @@
 from django.views import View
-from django.db.models import Q
 from django.core.paginator import Paginator
 
-from ..models import Project
+from ..models import Hobby
 
 from core.mixins import ResponseMixin
 from core.utils import Validator
-from core.constants import PAGE_SIZE, PAGE_INDEX
+from core.constants import (PAGE_SIZE,
+                            PAGE_INDEX)
 
 
-class ProjectList(ResponseMixin, View):
-    """项目列表视图
+class HobbyList(ResponseMixin, View):
+    """兴趣列表视图
     """
 
-    projects = Project.objects
-    projects_extend = Project.objects_extend
+    hobby = Hobby.objects
+    hobby_extend = Hobby.objects_extend
 
     def post(self, request):
         args = request.POST.copy()
@@ -35,21 +35,19 @@ class ProjectList(ResponseMixin, View):
         is_arg_valid, err_msg = validator.arg_msg()
         if is_arg_valid:
             if search_desc:
-                project_objs = (self.projects_extend
-                                .filter(Q(name__contains=search_desc) |
-                                        Q(desc__contains=search_desc) |
-                                        Q(company__contains=search_desc))
-                                .values(*Project.DISPLAY_FIELDS))
+                hobby_objs = (self.hobby_extend
+                              .filter(desc__contains=search_desc)
+                              .values(*Hobby.DISPLAY_FIELDS))
             else:
-                project_objs = (self.projects_extend
-                                .values(*Project.DISPLAY_FIELDS))
+                hobby_objs = (self.hobby_extend
+                              .values(*Hobby.DISPLAY_FIELDS))
 
-            paginator = Paginator(project_objs, page_size)
+            paginator = Paginator(hobby_objs, page_size)
             page_info = {
-                "pageSize": page_size,  # 每页条数
-                "pageIndex": page_index,  # 当前页数
-                "itemTotal": paginator.count,  # 数据总数
-                "pageTotal": paginator.num_pages  # 分页总数
+                "pageSize": page_size,
+                "pageIndex": page_index,
+                "itemTotal": paginator.count,
+                "pageTotal": paginator.num_pages
             }
             data = list(paginator
                         .page(page_index)
@@ -62,32 +60,34 @@ class ProjectList(ResponseMixin, View):
         return self.get_response()
 
 
-class ProjectDetail(ResponseMixin, View):
-    """项目详情视图
+class HobbyDetail(ResponseMixin, View):
+    """兴趣详情视图
     """
 
-    projects = Project.objects
-    projects_extend = Project.objects_extend
+    hobby = Hobby.objects
+    hobby_extend = Hobby.objects_extend
 
     def post(self, request):
         args = request.POST.copy()
         validator = Validator(params=args)
 
-        project_id = validator.arg_check(
-            arg_key="projectId",
+        hobby_id = validator.arg_check(
+            arg_key="hobbyId",
             arg_type=int,
             nullable=False)
 
         is_arg_valid, err_msg = validator.arg_msg()
         if is_arg_valid:
-            project_obj = (self.projects_extend
-                           .filter(id=project_id)
-                           .values(*Project.DISPLAY_FIELDS))
-            data = list(project_obj)
+            hobby_obj = (self.hobby_extend
+                         .filter(id=hobby_id)
+                         .values(*Hobby.DISPLAY_FIELDS))
+            data = list(hobby_obj)
             return self.get_response(data)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
         return self.get_response()
+
+
 

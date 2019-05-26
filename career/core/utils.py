@@ -42,11 +42,11 @@ class Validator:
 
     def arg_msg(self):
         if self.arg_null:
-            self.detail = ("参数" + self.arg_null[0] + "为空"
+            self.detail = ("参数错误，" + self.arg_null[0] + "为空"
                            if len(self.arg_null) == 1
                            else "参数" + ",".join(self.arg_null) + "为空")
         if self.arg_type:
-            self.detail = ("参数" + self.arg_type[0] + "类型错误"
+            self.detail = ("参数错误，" + self.arg_type[0] + "类型错误"
                            if len(self.arg_type) == 1
                            else "参数" + ",".join(self.arg_type) + "类型错误")
 
