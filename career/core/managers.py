@@ -17,7 +17,3 @@ class ExistedManager(models.Manager):
 
 class CRUDManager(models.Manager):
     pass
-
-
-class RetrieveManager(models.Manager):
-    pass

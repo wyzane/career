@@ -3,7 +3,8 @@ from django.urls import path
 from .apis.views import (HobbyList,
                          HobbyDetail)
 from .apis.views_crud import (HobbyCreation,
-                              HobbyDeletion)
+                              HobbyDeletion,
+                              HobbyUpdate)
 
 
 urlpatterns = [
@@ -14,5 +15,7 @@ urlpatterns = [
     path('create/hobby',
          HobbyCreation.as_view()),
     path('delete/hobby',
-         HobbyDeletion.as_view())
+         HobbyDeletion.as_view()),
+    path('update/hobby',
+         HobbyUpdate.as_view())
 ]

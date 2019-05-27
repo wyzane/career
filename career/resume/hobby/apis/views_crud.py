@@ -72,3 +72,44 @@ class HobbyDeletion(ResponseMixin, View):
             self.status = False,
             self.message = err_msg
         return self.get_response()
+
+
+class HobbyUpdate(ResponseMixin, View):
+    """兴趣更新视图
+    """
+
+    hobby = Hobby.objects
+    hobby_extend = Hobby.objects_extend
+
+    def post(self, request):
+        args = request.POST.copy()
+        validator = Validator(params=args)
+
+        hobby_id = validator.arg_check(
+            arg_key="hobbyId",
+            arg_type=int,
+            nullable=False)
+        desc = validator.arg_check(
+            arg_key="desc",
+            arg_type=str)
+
+        is_arg_valid, err_msg = validator.arg_msg()
+        if is_arg_valid:
+            data = None
+            if desc:
+                update_field = {
+                    "desc": desc
+                }
+                hobby_obj = (self.hobby_extend
+                             .filter(id=hobby_id)
+                             .update(**update_field))
+                if hobby_obj:
+                    hobby_obj = self.hobby.filter(id=hobby_id)
+                    data = list(hobby_obj
+                                .values(*Hobby.DISPLAY_FIELDS))
+            return self.get_response(data)
+        else:
+            self.code = "00001"
+            self.status = False
+            self.message = err_msg
+        return self.get_response()
