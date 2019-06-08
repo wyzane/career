@@ -1,6 +1,16 @@
 from django.db import models
 
 
+class PublicModel(models.Model):
+    user_id = models.IntegerField(
+        default=-1,
+        verbose_name="用户id",
+        help_text="用户id")
+
+    class Meta:
+        abstract = True
+
+
 class DateTimeModel(models.Model):
     created = models.DateTimeField(
         auto_now_add=True,

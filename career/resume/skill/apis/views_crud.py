@@ -25,12 +25,12 @@ class SkillCreation(ResponseMixin, View):
                 "id": skill_obj.id,
                 "desc": skill_obj.desc
             }
-            return self.get_response(data)
+            return self.get_json_response(data)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 class SkillUpdate(ResponseMixin, View):
@@ -61,7 +61,7 @@ class SkillUpdate(ResponseMixin, View):
                 data = (skill_obj
                         .values(*Skill.DISPLAY_FIELDS)
                         .first())
-                return self.get_response(data)
+                return self.get_json_response(data)
             else:
                 self.code = "00002"
                 self.status = False
@@ -70,7 +70,7 @@ class SkillUpdate(ResponseMixin, View):
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 class SkillDeletion(ResponseMixin, View):
@@ -94,12 +94,12 @@ class SkillDeletion(ResponseMixin, View):
             skill_obj = (self.skill
                          .filter(id__in=skill_ids)
                          .update(is_deleted=True))
-            return self.get_response()
+            return self.get_json_response()
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 class SkillDownload(ResponseMixin, View):

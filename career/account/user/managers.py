@@ -1,12 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import BaseUserManager
 
-from core.managers import (ExistedManager,
+from core.managers import (BaseManager,
+                           ExistedManager,
                            CRUDManager)
 
 
-class UserManger(ExistedManager,
+class UserManger(BaseManager,
+                 ExistedManager,
                  CRUDManager,
-                 models.Manager):
+                 BaseUserManager):
     def get_queryset(self):
         return (super()
                 .get_queryset()

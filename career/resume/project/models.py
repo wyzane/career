@@ -1,12 +1,13 @@
 from django.db import models
 
-from core.models import (DateTimeModel,
+from core.models import (PublicModel,
+                         DateTimeModel,
                          DeletedModel)
-from .querysets import ProjectQuerySet
 from .managers import ProjectManager
 
 
-class Project(DateTimeModel,
+class Project(PublicModel,
+              DateTimeModel,
               DeletedModel,
               models.Model):
 
@@ -40,4 +41,3 @@ class Project(DateTimeModel,
         ordering = ['-id']
         get_latest_by = ['created']
         # managed = False
-

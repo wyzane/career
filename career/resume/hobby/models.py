@@ -2,11 +2,13 @@ from django.db import models
 
 from .managers import HobbyManager
 
-from core.models import (DateTimeModel,
+from core.models import (PublicModel,
+                         DateTimeModel,
                          DeletedModel)
 
 
-class Hobby(DateTimeModel,
+class Hobby(PublicModel,
+            DateTimeModel,
             DeletedModel,
             models.Model):
 

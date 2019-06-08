@@ -52,12 +52,12 @@ class HobbyList(ResponseMixin, View):
             data = list(paginator
                         .page(page_index)
                         .object_list)
-            return self.get_response(data, **page_info)
+            return self.get_json_response(data, **page_info)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 class HobbyDetail(ResponseMixin, View):
@@ -82,12 +82,12 @@ class HobbyDetail(ResponseMixin, View):
                          .filter(id=hobby_id)
                          .values(*Hobby.DISPLAY_FIELDS))
             data = list(hobby_obj)
-            return self.get_response(data)
+            return self.get_json_response(data)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 

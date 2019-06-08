@@ -1,12 +1,13 @@
 from django.db import models
 
-from core.models import (DateTimeModel,
+from core.models import (PublicModel,
+                         DateTimeModel,
                          DeletedModel)
-from core.managers import BaseManager
 from .querysets import SkillQuerySet
 
 
-class Skill(DateTimeModel,
+class Skill(PublicModel,
+            DateTimeModel,
             DeletedModel,
             models.Model):
 
