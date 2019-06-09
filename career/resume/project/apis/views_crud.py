@@ -42,7 +42,7 @@ class ProjectCreation(ResponseMixin, View):
             project_obj = self.projects.create(**project)
             if project_obj:
                 data = model_to_dict(project_obj)
-                return self.get_response(data)
+                return self.get_json_response(data)
             else:
                 self.code = "00004"
                 self.status = False
@@ -51,7 +51,7 @@ class ProjectCreation(ResponseMixin, View):
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 class ProjectDeletion(ResponseMixin, View):
@@ -79,7 +79,7 @@ class ProjectDeletion(ResponseMixin, View):
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 class ProjectUpdate(ResponseMixin, View):
@@ -127,7 +127,7 @@ class ProjectUpdate(ResponseMixin, View):
 
                 data = list(project_obj
                             .values(*Project.DISPLAY_FIELDS))
-                return self.get_response(data)
+                return self.get_json_response(data)
             else:
                 self.code = "00002"
                 self.status = False
@@ -136,4 +136,4 @@ class ProjectUpdate(ResponseMixin, View):
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()

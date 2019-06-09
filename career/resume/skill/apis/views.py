@@ -30,12 +30,12 @@ class SkillDetail(ResponseMixin, View):
                             is_deleted=False)
                     .values(*Skill.DISPLAY_FIELDS)
                     .first())
-            return self.get_response(data)
+            return self.get_json_response(data)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-            return self.get_response()
+            return self.get_json_response()
 
 
 class SkillList(ResponseMixin, View):
@@ -81,9 +81,9 @@ class SkillList(ResponseMixin, View):
             data = list(paginator
                         .page(page_index)
                         .object_list)
-            return self.get_response(data, **page_info)
+            return self.get_json_response(data, **page_info)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-            return self.get_response()
+            return self.get_json_response()

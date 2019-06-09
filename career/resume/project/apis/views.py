@@ -54,12 +54,12 @@ class ProjectList(ResponseMixin, View):
             data = list(paginator
                         .page(page_index)
                         .object_list)
-            return self.get_response(data, **page_info)
+            return self.get_json_response(data, **page_info)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 
 
 class ProjectDetail(ResponseMixin, View):
@@ -84,10 +84,10 @@ class ProjectDetail(ResponseMixin, View):
                            .filter(id=project_id)
                            .values(*Project.DISPLAY_FIELDS))
             data = list(project_obj)
-            return self.get_response(data)
+            return self.get_json_response(data)
         else:
             self.code = "00001"
             self.status = False
             self.message = err_msg
-        return self.get_response()
+        return self.get_json_response()
 

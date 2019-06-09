@@ -9,6 +9,8 @@ class ResponseMixin:
         "00002": "对象不存在",
         "00003": "对象已存在",
         "00004": "创建错误，",
+        "00005": "登录失败",
+        "00006": "请重新登录",
     }
 
     def __init__(self):
@@ -42,7 +44,7 @@ class ResponseMixin:
         # self._message = (self.code_message
         #                  .get(self.code) + msg)
 
-    def get_response(self, data=None, **kwargs):
+    def get_json_response(self, data=None, **kwargs):
         res = dict()
         res["code"] = self.code
         res["status"] = self.status

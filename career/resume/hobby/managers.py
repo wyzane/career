@@ -1,13 +1,11 @@
 from django.db import models
 
 from core.managers import (ExistedManager,
-                           CRUDManager,
-                           RetrieveManager)
+                           CRUDManager)
 
 
 class HobbyManager(ExistedManager,
                    CRUDManager,
-                   RetrieveManager,
                    models.Manager):
     def get_queryset(self):
         return (super()

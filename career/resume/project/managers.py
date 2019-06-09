@@ -5,13 +5,11 @@
 from django.db import models
 
 from core.managers import (ExistedManager,
-                           CRUDManager,
-                           RetrieveManager)
+                           CRUDManager)
 
 
 class ProjectManager(ExistedManager,
                      CRUDManager,
-                     RetrieveManager,
                      models.Manager):
     def get_queryset(self):
         """过滤已删除数据

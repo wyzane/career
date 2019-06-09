@@ -106,5 +106,9 @@ venv.bak/
 .idea/*
 *__init__*
 *_initial*
+*auto*
+000*
 
 settings/local_*
+
+*/migrations/*
