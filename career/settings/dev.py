@@ -4,7 +4,11 @@ DEBUG = True
 
 REDIS_OPTIONS = {}
 
-ES_OPTIONS = {}
+ES_OPTIONS = {
+    "HOST": '192.168.0.103',
+    "PORT": 9200,
+    "NODE": ["192.168.0.103:9200"]
+}
 
 # Database
 DATABASES = {
