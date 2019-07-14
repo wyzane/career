@@ -24,7 +24,7 @@ SECRET_KEY = '#ui@cucsa_%+5mv5@(-s^b4-79gnabbd30mby!8=-rerm#)_9a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'resume.hobby',
     'resume.project',
     'account.user',
+    'channels',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'core.middlewares.LoginMiddleware',
+    # 'core.middlewares.LoginMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'settings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,4 +130,16 @@ PASSWORD_HASHERS = [
 EXCLUDE_PATH = [
     '/api/v1/account/login/user',
     '/api/v1/account/create/user',
+    '/api/v1/user/chat',
 ]
+
+ASGI_APPLICATION = 'settings.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('192.168.0.103', 6379)],
+        },
+    },
+}

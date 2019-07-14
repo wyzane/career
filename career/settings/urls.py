@@ -21,6 +21,7 @@ import resume.project.urls as url_project
 import resume.hobby.urls as url_hobby
 import account.user.urls as url_user
 import elastic.urls as url_elastic
+import chat.urls as url_chat
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +30,5 @@ urlpatterns = [
     path('api/v1/resume/', include(url_hobby)),
     path('api/v1/account/', include(url_user)),
     path('api/v1/elastic/', include(url_elastic)),
+    path('api/v1/user/', include(url_chat)),
 ]

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>聊天室</title>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        $('#sendMsg').click(function () {
+            var socket = new WebSocket("ws://192.168.0.103:8000/ws/chat01/164");
+            socket.onopen = function () {
+                console.log('WebSocket open'); //成功连接上Websocket
+                socket.send($('#msg').val());  //发送数据到服务端
+            };
+            socket.onmessage = function (ret) {
+                var data = JSON.parse(ret.data)
+                var msg = data["message"]
+                console.log('message: ' + msg);//打印服务端返回的数据
+                $('#retMsg').prepend('<p>' + msg + '</p>');
+            };
+        });
+    });
+    </script>
+</head>
+<body>
+    <br>
+    <input type="text" id="msg" value="Hello, World!"/>
+        <button type="button" id="sendMsg">发送</button>
+    <h1>Received Messages</h1>
+    <div id="retMsg"></div>
+</body>
+</html>
