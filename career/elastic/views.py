@@ -97,6 +97,3 @@ class IndexRebuild(ResponseMixin, View):
             self.status = False
             self.message = err_msg
         return self.get_json_response()
-
-
-
