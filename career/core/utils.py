@@ -1,4 +1,10 @@
 import json
+import redis
+import requests
+
+from apscheduler.schedulers.background import BackgroundScheduler
+
+from django.conf import settings
 
 
 class Validator:
@@ -56,16 +62,130 @@ class Validator:
 
 
 class RedisUtil:
-    pass
+
+    pool = redis.ConnectionPool(host=settings.REDIS_OPTIONS.get("HOST"),
+                                port=settings.REDIS_OPTIONS.get("PORT"),
+                                password=settings.REDIS_OPTIONS.get("password"),
+                                max_connections=settings.MAX_REDIS_CONNECTIONS)
+
+    instance = redis.Redis(connection_pool=pool)
+
+    def set(self, data, ex=None, op=None):
+        """保存字符串数据
+
+        Args:
+            op: 是否批量操作
+
+        Returns:
+
+        """
+        if not data:
+            return False
+
+        result = None
+
+        if not op:
+            key = list(data.keys())[0]
+            val = data.get(key)
+            result = self.instance.set(key, val, ex)
+        elif op == "m":
+            result = self.instance.mset(**data, ex=ex)
+        return result
+
+    def get(self, key, op=None):
+        """获取字符串数据
+        """
+        if not key:
+            return False
+
+        results = []
+        bytes_val = []
+
+        if not op:
+            tmp_val = self.instance.get(key)
+            bytes_val.append(tmp_val)
+        elif op == "m":
+            bytes_val = self.instance.mget(*key)
+        else:
+            return None
+
+        if not bytes_val:
+            return None
+
+        try:
+            for val in bytes_val:
+                result = val.decode("utf-8")
+                results.append(result)
+        except AttributeError:
+            return None
+        return results
+
+    def get_set(self, key, val):
+        """获取旧值，同时更新值
+        """
+        if not key:
+            return False
+
+        result = None
+        val = self.instance.getset(key, val)
+        try:
+            result = val.decode("utf-8")
+        except AttributeError:
+            pass
+        return result
+
+    def set_json(self, key, val, ex=None):
+        """写入json数据
+        """
+        result = self.instance.set(key, val, ex)
+        return result
+
+    def get_json(self, key):
+        """写入json数据
+        """
+        result = None
+        val = self.instance.get(key)
+        try:
+            tmp_ret = val.decode("utf-8")
+            result = json.loads(tmp_ret)
+        except (AttributeError, TypeError):
+            pass
+        return result
 
 
 class ESUtil:
-    pass
+
+    session = requests.Session()
+
+    def __init__(self):
+        self.session.headers = settings.ES_HEADER
+
+    def query(self, index, cons):
+        """查询接口
+
+        Args:
+            index: 索引
+            cons: 查询条件
+
+        Returns:
+
+        """
+        pass
 
 
 class PGUtil:
     pass
 
 
-class CrontabUtil:
-    pass
+class CronUtil:
+
+    scheduler = BackgroundScheduler(jobstores=settings.JOB_STORE,
+                                    job_defaults=settings.JOB_DEFAULTS)
+
+    @staticmethod
+    def cron_task(func):
+        job = CronUtil.scheduler.add_job(func,
+                                         "interval",
+                                         seconds=settings.INTERVAL)
+        CronUtil.scheduler.start()
+        return job

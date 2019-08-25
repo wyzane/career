@@ -1,12 +1,17 @@
 from django.views import View
 from django.core.paginator import Paginator
 
-from ..models import Hobby
-
 from core.mixins import ResponseMixin
-from core.utils import Validator
+from core.utils import Validator, CronUtil, RedisUtil
 from core.constants import (PAGE_SIZE,
                             PAGE_INDEX)
+
+from ..models import Hobby
+from ..crontab import task01
+
+
+# 启动定时任务
+# CronUtil.cron_task(task01)
 
 
 class HobbyList(ResponseMixin, View):
@@ -88,6 +93,3 @@ class HobbyDetail(ResponseMixin, View):
             self.status = False
             self.message = err_msg
         return self.get_json_response()
-
-
-
