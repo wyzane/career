@@ -1,4 +1,4 @@
-import BytesIO
+from io import BytesIO
 import xlsxwriter
 from django.http.response import JsonResponse
 

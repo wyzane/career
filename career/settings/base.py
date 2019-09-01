@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'account.user',
     'channels',
     'chat',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -139,7 +140,10 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('192.168.0.103', 6379)],
+            "hosts": [('192.168.0.101', 6379)],
         },
     },
 }
+
+# django-import-export config
+IMPORT_EXPORT_USE_TRANSACTIONS = True

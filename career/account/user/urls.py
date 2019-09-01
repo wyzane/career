@@ -4,7 +4,7 @@ from .apis.views_crud import (Login,
                               Logout,
                               CreateUser,
                               DeletionUser)
-from .apis.views import UserList
+from .apis.views import UserList, UserExport
 
 
 urlpatterns = [
@@ -17,5 +17,7 @@ urlpatterns = [
     path('delete/user',
          DeletionUser.as_view()),
     path('list/user',
-         UserList.as_view())
+         UserList.as_view()),
+    path('export/user',
+         UserExport.as_view()),
 ]
