@@ -5,7 +5,7 @@
 from .dev import *
 
 REDIS_OPTIONS = {
-    "HOST": '192.168.0.101',
+    "HOST": '192.168.0.103',
     "PORT": 6379,
     "password": "wyzane",
 }
