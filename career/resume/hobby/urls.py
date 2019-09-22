@@ -17,5 +17,5 @@ urlpatterns = [
     path('delete/hobby',
          HobbyDeletion.as_view()),
     path('update/hobby',
-         HobbyUpdate.as_view())
+         HobbyUpdate.as_view()),
 ]

@@ -1,10 +1,14 @@
+import json
+
 from django.views import View
+from django.http import HttpResponse
 from django.core.paginator import Paginator
 
 from core.mixins import ResponseMixin
 from core.utils import Validator
 from core.constants import (PAGE_SIZE,
                             PAGE_INDEX)
+from core.export import ResourceUser
 
 from ..models import UserInfo
 
@@ -53,3 +57,31 @@ class UserList(ResponseMixin, View):
             self.status = False
             self.message = err_msg
         return self.get_json_response()
+
+
+class UserExport(ResponseMixin, View):
+    """数据导出
+    """
+
+    def post(self, request):
+        print("-- 1 --")
+        resource_user = ResourceUser()
+        dataset = resource_user.export()
+
+        # 导出为json数据
+        data_json = dataset.json
+        data_json = json.loads(data_json)
+        return self.get_json_response(data_json)
+
+        # 导出为csv数据
+        # data_csv = dataset.csv
+        # response = HttpResponse(data_csv, content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename="user.csv"'
+
+        # 导出为excel数据
+        # response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+        # response['Content-Disposition'] = 'attachment; filename="user.xls"'
+        # return response
+
+
+

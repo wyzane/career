@@ -1,3 +1,5 @@
+from io import BytesIO
+import xlsxwriter
 from django.http.response import JsonResponse
 
 
@@ -54,3 +56,47 @@ class ResponseMixin:
         res["data"] = data
         return JsonResponse(res)
 
+    def get_xlsx_response(self, filename, data):
+        """下载数据为xlsx格式
+
+        Args:
+            filename: 文件名称
+            data: 待下载数据
+        """
+        resp = HttpResponse()
+        resp["Content-Type"] = "application/octet-stream"
+        resp["Content-Disposition"] = ("attachment;filename={0}.xlsx"
+                                       .format(filename))
+        resp.write(data)
+        return resp
+
+    def download_xlsx(self, headers, data, sheet):
+        """返回待下载xlsx数据
+
+        Args:
+            headers: 表头
+            data: 待下载数据，格式[{...}, {...}, {...}]
+            sheet: sheet名称
+
+        Returns:
+            output.getValue(): 返回给前端的响应数据
+
+        """
+        output = BytesIO()
+        wb = xlswriter.WorkBook(output)
+        wb_sheet = wb.add_sheet(sheet)
+
+        header_col = 0
+        row_num = 0
+        for header in headers:
+            wb_sheet.write(0, header_col, header)
+            header_col += 1
+
+        for d in data:
+            for row_col in range(len(headers)):
+                wb_sheet.write(row_num, row_col,
+                               d.get(headers[row_col]))
+            row_num += 1
+
+        wb.close()
+        return output.getValue()

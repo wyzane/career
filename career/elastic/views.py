@@ -1,3 +1,6 @@
+"""elastic search相关API
+"""
+
 from django.views import View
 
 from core.mixins import ResponseMixin

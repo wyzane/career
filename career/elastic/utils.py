@@ -22,7 +22,7 @@ class ESHandler:
 
         """
         req_url = self.host + "_cat/indices?v"
-        res = requests.get(req_url, headers=ES_HEADER)
+        res = requests.get(req_url, headers=settings.ES_HEADER)
         if res.status_code == 200:
             data = (res.content
                     .decode("utf-8"))
@@ -55,12 +55,12 @@ class ESHandler:
 
         # NOTE: 创建索引
         res = requests.put(req_index_url,
-                           headers=ES_HEADER,
+                           headers=settings.ES_HEADER,
                            data=index_data)
         if res.status_code == 200:
             # NOTE: 为索引指定别名
             res_alias = requests.post(req_alias_url,
-                                      headers=ES_HEADER,
+                                      headers=settings.ES_HEADER,
                                       data=json.dumps(alias_data))
             if res_alias.status_code == 200:
                 return ""
@@ -100,7 +100,7 @@ class ESHandler:
         create_index_url = self.host + new_index
         index_data = json.dumps(mappings)
         res_create = (requests.put(create_index_url,
-                                   headers=ES_HEADER,
+                                   headers=settings.ES_HEADER,
                                    data=json.dumps(index_data)))
         if res_create.status_code != 200:
             print("index create error:",
@@ -118,7 +118,7 @@ class ESHandler:
             }
         }
         res_reindex = requests.post(duplicate_data_url,
-                                    headers=ES_HEADER,
+                                    headers=settings.ES_HEADER,
                                     data=json.dumps(duplicate_data))
         if res_reindex.status_code != 200:
             print("reindex error:",
@@ -144,7 +144,7 @@ class ESHandler:
             ]
         }
         res_alias = (requests.post(alias_url,
-                                   headers=ES_HEADER,
+                                   headers=settings.ES_HEADER,
                                    data=json.dumps(alias_data)))
         if res_alias.status_code != 200:
             print("alias create error:",
