@@ -1,6 +1,6 @@
 # skill general
 
-uwsgi启动方式：
+uwsgi启动方式：首先进入虚拟环境，然后再执行
 `
 uwsgi --ini server.ini
 `
