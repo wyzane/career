@@ -11,6 +11,6 @@ uwsgi --http :8001 --chdir /home/python/gitproject/skill-general/career --wsgi-f
 `  
   
   gunicorn启动方式：  
-  方式1：gunicorn -w 4 -b 192.168.0.103:8000 settings.wsgi:application
-  方式2：gunicorn settings.wsgi:application -c gunicorn.ini
+  方式1：gunicorn -w 4 -b 192.168.0.103:8000 settings.wsgi:application  
+  方式2：gunicorn settings.wsgi:application -c gunicorn.ini  
   方式3：sh gunicorn.sh start  sh gunicorn.sh stop
