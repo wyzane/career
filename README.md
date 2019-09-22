@@ -1,6 +1,4 @@
-# career
-程序人生
-
+# skill general
 
 uwsgi启动方式：
 `
