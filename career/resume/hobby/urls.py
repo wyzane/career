@@ -18,4 +18,6 @@ urlpatterns = [
          HobbyDeletion.as_view()),
     path('update/hobby',
          HobbyUpdate.as_view()),
+    # path("test/hobby",
+    #      Test.as_view())
 ]

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'channels',
     'chat',
     'import_export',
+    'seri',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -140,7 +142,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('192.168.0.103', 6379)],
+            "hosts": [('192.168.0.101', 6379)],
         },
     },
 }
