@@ -5,9 +5,14 @@ from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
 
 from core.mixins import ResponseMixin
+from settings.startup import run
 
 from .models import Student
 from .serializer import StudentSerializer
+
+
+# 服务器启动时初始化
+run()
 
 
 class StudentList(ResponseMixin, APIView):
