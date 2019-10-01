@@ -6,7 +6,7 @@ from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 DEBUG = True
 
 REDIS_OPTIONS = {
-    "HOST": '192.168.0.103',
+    "HOST": '192.168.0.101',
     "PORT": 6379,
 }
 
