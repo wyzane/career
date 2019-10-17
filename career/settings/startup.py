@@ -13,7 +13,7 @@ from settings.local_wz import (SERVER_IP,
 def run():
     print("--startup--")
     # 启动定时任务
-    CronUtil.cron_task(task01)
+    # CronUtil.cron_task(task01)
 
     thread_rpc = Thread(target=run_rpc)
     thread_rpc.start()
