@@ -1,15 +1,14 @@
 """drf nest serializer
 """
 
-from rest_framework.views import APIView
 from rest_framework.parsers import JSONParser
+from rest_framework.views import APIView
 
 from core.mixins import ResponseMixin
+from public.decorators import TraceMemory
 from settings.startup import run
-
 from .models import Student
 from .serializer import StudentSerializer
-
 
 # 服务器启动时初始化
 run()
@@ -21,6 +20,7 @@ class StudentList(ResponseMixin, APIView):
 
     parser_classes = [JSONParser]
 
+    @TraceMemory(top=5)
     def post(self, request):
 
         args = request.data

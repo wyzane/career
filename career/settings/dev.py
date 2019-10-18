@@ -5,7 +5,7 @@ from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 
 DEBUG = True
 
-SERVER_IP = "192.168.0.103"
+SERVER_IP = "192.168.0.102"
 RPC_SERVER_PORT = 8081
 
 REDIS_OPTIONS = {
