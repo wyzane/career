@@ -22,7 +22,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.group_name = 'chat_%s' % self.uid
 
         # channel layers副本：self.channel_layer
-        # 如何判断若group_name已存在就不再添加进channel_layer中
         await self.channel_layer.group_add(
             self.group_name,
             self.channel_name

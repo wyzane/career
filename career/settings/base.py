@@ -149,3 +149,5 @@ CHANNEL_LAYERS = {
 
 # django-import-export config
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+MAX_REDIS_CONNECTIONS = 10
